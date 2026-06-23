@@ -1,0 +1,16 @@
+export const trainingList = [
+  "NR-01 — Integração, GRO/PGR e Ordens de Serviço",
+  "NR-05 — CIPA e prevenção de acidentes e assédio",
+  "NR-06 — Equipamentos de Proteção Individual",
+  "NR-11 — Transporte, movimentação, armazenagem e manuseio de materiais",
+  "NR-12 — Segurança em máquinas e equipamentos",
+  "NR-17 — Ergonomia",
+  "NR-20 — Inflamáveis e combustíveis",
+  "NR-23 — Proteção contra incêndios",
+  "NR-31 — Segurança e saúde no trabalho rural",
+  "NR-35 — Trabalho em altura",
+  "Brigada de emergência",
+  "Primeiros socorros",
+  "DDS personalizados",
+  "Treinamentos específicos conforme atividade da empresa",
+];
