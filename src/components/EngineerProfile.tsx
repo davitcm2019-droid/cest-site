@@ -50,7 +50,7 @@ export function EngineerProfile() {
             <ShieldCheck className="h-4 w-4" />
             Responsabilidade técnica
           </span>
-          <h2 className="text-3xl font-bold leading-tight text-brand-dark sm:text-4xl">
+          <h2 className="text-3xl font-bold leading-tight text-graphite sm:text-4xl">
             Responsabilidade técnica à frente dos projetos
           </h2>
           <p className="mt-5 text-base leading-relaxed text-graphite/70">
