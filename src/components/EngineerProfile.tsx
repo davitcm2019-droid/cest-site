@@ -44,16 +44,16 @@ export function EngineerProfile() {
         </div>
       </RevealOnScroll>
 
-      <div className="lg:col-span-3">
+      <div className="rounded-2xl bg-brand-dark p-8 lg:col-span-3">
         <RevealOnScroll>
-          <span className="mb-3 inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-brand">
+          <span className="mb-3 inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-brand-accent">
             <ShieldCheck className="h-4 w-4" />
             Responsabilidade técnica
           </span>
-          <h2 className="text-3xl font-bold leading-tight text-graphite sm:text-4xl">
+          <h2 className="text-3xl font-bold leading-tight text-white sm:text-4xl">
             Responsabilidade técnica à frente dos projetos
           </h2>
-          <p className="mt-5 text-base leading-relaxed text-graphite/70">
+          <p className="mt-5 text-base leading-relaxed text-white/75">
             O engenheiro responsável pela CEST atua na condução técnica dos
             trabalhos de Segurança do Trabalho, avaliações ambientais, laudos,
             programas ocupacionais, treinamentos e suporte documental para
@@ -65,14 +65,14 @@ export function EngineerProfile() {
         </RevealOnScroll>
 
         <RevealOnScroll delay={0.1}>
-          <h3 className="mt-8 text-sm font-semibold uppercase tracking-wider text-graphite/50">
+          <h3 className="mt-8 text-sm font-semibold uppercase tracking-wider text-white/50">
             Áreas de atuação
           </h3>
           <div className="mt-4 grid grid-cols-1 gap-2.5 sm:grid-cols-2">
             {areas.map((area) => (
               <div
                 key={area}
-                className="flex items-center gap-2.5 rounded-lg bg-mist px-4 py-3 text-sm font-medium text-graphite/80"
+                className="flex items-center gap-2.5 rounded-lg bg-white/10 px-4 py-3 text-sm font-medium text-white/90"
               >
                 <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-brand-accent" />
                 {area}
