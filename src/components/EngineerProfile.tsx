@@ -1,4 +1,5 @@
-import { Award, HardHat, ShieldCheck } from "lucide-react";
+import Image from "next/image";
+import { Award, ShieldCheck } from "lucide-react";
 import { siteConfig } from "@/config/siteConfig";
 import { RevealOnScroll } from "@/components/RevealOnScroll";
 
@@ -20,8 +21,13 @@ export function EngineerProfile() {
     <div className="grid grid-cols-1 items-start gap-10 lg:grid-cols-5 lg:gap-16">
       <RevealOnScroll className="lg:col-span-2">
         <div className="overflow-hidden rounded-2xl border border-graphite/10 bg-mist">
-          <div className="flex aspect-[4/5] items-center justify-center bg-brand-dark/5">
-            <HardHat className="h-20 w-20 text-brand-dark/20" strokeWidth={1} />
+          <div className="relative aspect-[4/5] w-full overflow-hidden">
+            <Image
+              src="/eduardo.png"
+              alt={siteConfig.engineer.name}
+              fill
+              className="object-cover object-top"
+            />
           </div>
           <div className="space-y-3 p-6">
             <div>
