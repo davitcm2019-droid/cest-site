@@ -2,10 +2,10 @@ import type { Metadata } from "next";
 import { Check } from "lucide-react";
 import { PageHero } from "@/components/PageHero";
 import { SectionTitle } from "@/components/SectionTitle";
-import { ServiceCard } from "@/components/ServiceCard";
+import { AnimatedServicesGrid } from "@/components/AnimatedServicesGrid";
 import { CTASection } from "@/components/CTASection";
 import { RevealOnScroll } from "@/components/RevealOnScroll";
-import { services, additionalServices } from "@/data/services";
+import { additionalServices } from "@/data/services";
 
 export const metadata: Metadata = {
   title: "Serviços de Segurança do Trabalho",
@@ -22,17 +22,7 @@ export default function ServicosPage() {
         description="Documentação, programas, laudos e processos estruturados para manter sua empresa em conformidade e com gestão preventiva de riscos."
       />
 
-      <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6 sm:py-28 lg:px-8">
-        <SectionTitle
-          eyebrow="Programas e documentos"
-          title="Serviços principais"
-        />
-        <div className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {services.map((service, index) => (
-            <ServiceCard key={service.slug} service={service} delay={index * 0.05} />
-          ))}
-        </div>
-      </section>
+      <AnimatedServicesGrid />
 
       <section className="bg-mist py-20 sm:py-28">
         <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
