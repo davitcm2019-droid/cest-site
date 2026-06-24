@@ -30,12 +30,25 @@ export const siteConfig = {
 
   nav: [
     { label: "Início", href: "/" },
-    { label: "Sobre", href: "/sobre" },
-    { label: "Serviços", href: "/servicos" },
-    { label: "Medicina Ocupacional", href: "/medicina-ocupacional" },
-    { label: "eSocial SST", href: "/esocial-sst" },
-    { label: "Treinamentos", href: "/treinamentos" },
-    { label: "Engenheiro Responsável", href: "/engenheiro-responsavel" },
+    {
+      label: "A CEST",
+      children: [
+        { label: "Sobre", href: "/sobre" },
+        { label: "Engenheiro Responsável", href: "/engenheiro-responsavel" },
+        { label: "Setores Atendidos", href: "/setores-atendidos" },
+      ],
+    },
+    {
+      label: "Serviços",
+      children: [
+        { label: "PGR / GRO", href: "/servicos" },
+        { label: "Medicina Ocupacional", href: "/medicina-ocupacional" },
+        { label: "eSocial SST", href: "/esocial-sst" },
+        { label: "Laudos Técnicos", href: "/laudos-tecnicos" },
+        { label: "Ergonomia", href: "/ergonomia" },
+        { label: "Treinamentos", href: "/treinamentos" },
+      ],
+    },
     { label: "Conteúdos", href: "/conteudos" },
     { label: "Contato", href: "/contato" },
   ],
