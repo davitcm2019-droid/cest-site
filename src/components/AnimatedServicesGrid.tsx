@@ -12,85 +12,89 @@ gsap.registerPlugin(ScrollTrigger);
 
 export function AnimatedServicesGrid() {
   const sectionRef = useRef<HTMLDivElement>(null);
+  const headingRef = useRef<HTMLDivElement>(null);
+  const gridRef = useRef<HTMLDivElement>(null);
 
   useGSAP(
     () => {
-      // Eyebrow fades up
-      gsap.from(".svc-eyebrow", {
-        y: 20,
-        opacity: 0,
-        duration: 0.7,
-        ease: "power3.out",
-        scrollTrigger: {
-          trigger: ".svc-heading",
-          start: "top 82%",
-        },
-      });
+      if (!headingRef.current || !gridRef.current) return;
 
-      // Title slides up
-      gsap.from(".svc-title", {
-        y: 32,
-        opacity: 0,
-        duration: 0.8,
-        ease: "power3.out",
-        delay: 0.1,
-        scrollTrigger: {
-          trigger: ".svc-heading",
-          start: "top 82%",
-        },
-      });
+      // Heading elements
+      gsap.fromTo(
+        headingRef.current.querySelectorAll(".svc-eyebrow, .svc-title"),
+        { y: 24, opacity: 0 },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 0.7,
+          stagger: 0.1,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: headingRef.current,
+            start: "top 90%",
+            once: true,
+          },
+        }
+      );
 
-      // Divider line draws from left
-      gsap.from(".svc-line", {
-        scaleX: 0,
-        transformOrigin: "left center",
-        duration: 1.4,
-        ease: "power3.out",
-        delay: 0.2,
-        scrollTrigger: {
-          trigger: ".svc-heading",
-          start: "top 82%",
-        },
-      });
+      // Divider line
+      const line = headingRef.current.querySelector(".svc-line");
+      if (line) {
+        gsap.fromTo(
+          line,
+          { scaleX: 0, transformOrigin: "left center" },
+          {
+            scaleX: 1,
+            duration: 1.2,
+            ease: "power3.out",
+            delay: 0.2,
+            scrollTrigger: {
+              trigger: headingRef.current,
+              start: "top 90%",
+              once: true,
+            },
+          }
+        );
+      }
 
-      // Cards stagger in
-      gsap.from(".svc-card", {
-        y: 56,
-        opacity: 0,
-        duration: 0.75,
-        stagger: 0.08,
-        ease: "power3.out",
-        scrollTrigger: {
-          trigger: ".svc-grid",
-          start: "top 78%",
-        },
-      });
+      // Cards
+      const cards = gridRef.current.querySelectorAll(".svc-card");
+      gsap.fromTo(
+        cards,
+        { y: 48, opacity: 0 },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 0.7,
+          stagger: 0.07,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: gridRef.current,
+            start: "top 88%",
+            once: true,
+          },
+        }
+      );
 
-      // Card number accent reveals from left
-      gsap.from(".svc-num", {
-        x: -12,
-        opacity: 0,
-        duration: 0.5,
-        stagger: 0.08,
-        ease: "power2.out",
-        scrollTrigger: {
-          trigger: ".svc-grid",
-          start: "top 78%",
-        },
-      });
-
-      // Icon scale-in
-      gsap.from(".svc-icon", {
-        scale: 0.5,
-        opacity: 0,
-        duration: 0.45,
-        stagger: 0.08,
-        ease: "back.out(1.7)",
-        scrollTrigger: {
-          trigger: ".svc-grid",
-          start: "top 78%",
-        },
-      });
+      // Icons
+      const icons = gridRef.current.querySelectorAll(".svc-icon");
+      gsap.fromTo(
+        icons,
+        { scale: 0.5, opacity: 0 },
+        {
+          scale: 1,
+          opacity: 1,
+          duration: 0.5,
+          stagger: 0.07,
+          ease: "back.out(1.7)",
+          delay: 0.1,
+          scrollTrigger: {
+            trigger: gridRef.current,
+            start: "top 88%",
+            once: true,
+          },
+        }
+      );
     },
     { scope: sectionRef }
   );
@@ -100,7 +104,7 @@ export function AnimatedServicesGrid() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
 
         {/* Heading */}
-        <div className="svc-heading mb-16">
+        <div ref={headingRef} className="mb-16">
           <p className="svc-eyebrow text-xs font-semibold uppercase tracking-[0.28em] text-brand-accent">
             Programas e documentos
           </p>
@@ -113,7 +117,10 @@ export function AnimatedServicesGrid() {
         </div>
 
         {/* Grid */}
-        <div className="svc-grid grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        <div
+          ref={gridRef}
+          className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4"
+        >
           {services.map((service, i) => {
             const Icon = serviceIcons[service.slug] ?? Check;
             const num = String(i + 1).padStart(2, "0");
@@ -123,7 +130,7 @@ export function AnimatedServicesGrid() {
                 key={service.slug}
                 className="svc-card group relative flex flex-col rounded-2xl border border-white/10 bg-white/[0.04] p-7 transition-all duration-500 hover:-translate-y-1 hover:border-brand-accent/25 hover:bg-white/[0.08] hover:shadow-2xl hover:shadow-black/40"
               >
-                {/* Ghost number background */}
+                {/* Ghost number */}
                 <span
                   aria-hidden
                   className="pointer-events-none absolute bottom-4 right-5 select-none font-display text-8xl font-extrabold leading-none text-white/[0.035]"
@@ -131,17 +138,17 @@ export function AnimatedServicesGrid() {
                   {num}
                 </span>
 
-                {/* Top row: number + icon */}
+                {/* Top row */}
                 <div className="flex items-center justify-between">
-                  <span className="svc-num text-xs font-bold tracking-[0.2em] text-brand-accent">
+                  <span className="text-xs font-bold tracking-[0.2em] text-brand-accent">
                     {num}
                   </span>
-                  <div className="svc-icon flex h-11 w-11 items-center justify-center rounded-xl border border-white/10 bg-white/5 text-white/40 transition-all duration-400 group-hover:border-brand-accent/30 group-hover:bg-brand-accent/10 group-hover:text-brand-accent">
+                  <div className="svc-icon flex h-11 w-11 items-center justify-center rounded-xl border border-white/10 bg-white/5 text-white/40 transition-all duration-300 group-hover:border-brand-accent/30 group-hover:bg-brand-accent/10 group-hover:text-brand-accent">
                     <Icon className="h-5 w-5" strokeWidth={1.75} />
                   </div>
                 </div>
 
-                {/* Title + description */}
+                {/* Content */}
                 <h3 className="mt-6 text-lg font-bold leading-snug text-white">
                   {service.title}
                 </h3>
@@ -150,7 +157,7 @@ export function AnimatedServicesGrid() {
                 </p>
 
                 {/* Items */}
-                <ul className="mt-auto space-y-2 border-t border-white/10 pt-5 mt-6">
+                <ul className="mt-6 space-y-2 border-t border-white/10 pt-5">
                   {service.items.map((item) => (
                     <li
                       key={item}
