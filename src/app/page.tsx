@@ -1,6 +1,6 @@
 import { Hero } from "@/components/Hero";
 import { SectionTitle } from "@/components/SectionTitle";
-import { HorizontalServicesScroll } from "@/components/HorizontalServicesScroll";
+import { AnimatedServicesGrid } from "@/components/AnimatedServicesGrid";
 import { StickyProcessSection } from "@/components/StickyProcessSection";
 import { FeatureCard } from "@/components/FeatureCard";
 import { StatsBlock } from "@/components/StatsBlock";
@@ -8,7 +8,6 @@ import { EngineerProfile } from "@/components/EngineerProfile";
 import { SectorCard } from "@/components/SectorCard";
 import { FAQSection } from "@/components/FAQSection";
 import { CTASection } from "@/components/CTASection";
-import { services } from "@/data/services";
 import { sectors } from "@/data/sectors";
 import { faq } from "@/data/faq";
 import { whyChooseItems } from "@/data/process";
@@ -28,18 +27,7 @@ export default function HomePage() {
         />
       </section>
 
-      <section className="bg-mist py-20 sm:py-28">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <SectionTitle
-            eyebrow="Serviços"
-            title="Serviços principais"
-            description="Programas, laudos e processos estruturados conforme a realidade operacional da sua empresa."
-          />
-        </div>
-        <div className="mt-12">
-          <HorizontalServicesScroll services={services} />
-        </div>
-      </section>
+      <AnimatedServicesGrid />
 
       <StickyProcessSection />
 
