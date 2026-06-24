@@ -1,7 +1,12 @@
 "use client";
 
 import { useState } from "react";
-import { useForm } from "react-hook-form";
+import type { ComponentPropsWithoutRef } from "react";
+import {
+  useForm,
+  type FieldError,
+  type UseFormRegisterReturn,
+} from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { CheckCircle2, Loader2, Send } from "lucide-react";
@@ -36,9 +41,55 @@ const schema = z.object({
 type FormData = z.infer<typeof schema>;
 
 const inputClasses =
-  "w-full rounded-lg border border-graphite/15 bg-white px-4 py-3 text-sm text-graphite outline-none transition-colors placeholder:text-graphite/40 focus:border-brand focus:ring-2 focus:ring-brand/20";
+  "w-full rounded-lg border border-graphite/15 bg-white px-4 py-3 text-sm text-graphite outline-none transition-colors placeholder:text-graphite/40 focus:border-brand focus:ring-2 focus:ring-brand/20 aria-[invalid=true]:border-red-500";
 
 const labelClasses = "mb-1.5 block text-sm font-medium text-graphite/80";
+
+function RequiredMark() {
+  return (
+    <span className="text-red-600" aria-hidden="true">
+      {" "}
+      *
+    </span>
+  );
+}
+
+function ErrorMessage({ id, error }: { id: string; error?: FieldError }) {
+  if (!error) return null;
+  return (
+    <p id={id} role="alert" className="mt-1.5 text-xs text-red-600">
+      {error.message}
+    </p>
+  );
+}
+
+type FieldProps = {
+  id: keyof FormData;
+  label: string;
+  error?: FieldError;
+  registration: UseFormRegisterReturn;
+} & Omit<ComponentPropsWithoutRef<"input">, "id" | "name">;
+
+function Field({ id, label, error, registration, ...inputProps }: FieldProps) {
+  const errorId = `${id}-error`;
+  return (
+    <div>
+      <label htmlFor={id} className={labelClasses}>
+        {label}
+        <RequiredMark />
+      </label>
+      <input
+        id={id}
+        className={inputClasses}
+        aria-invalid={error ? true : undefined}
+        aria-describedby={error ? errorId : undefined}
+        {...inputProps}
+        {...registration}
+      />
+      <ErrorMessage id={errorId} error={error} />
+    </div>
+  );
+}
 
 export function ContactForm() {
   const [submitted, setSubmitted] = useState(false);
@@ -95,73 +146,71 @@ export function ContactForm() {
       noValidate
       className="space-y-5 rounded-2xl border border-graphite/10 bg-white p-6 sm:p-8"
     >
+      <p className="text-xs text-graphite/60">
+        Campos marcados com <span className="text-red-600">*</span> são
+        obrigatórios.
+      </p>
+
       <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
-        <div>
-          <label htmlFor="name" className={labelClasses}>
-            Nome
-          </label>
-          <input id="name" className={inputClasses} {...register("name")} />
-          {errors.name && (
-            <p className="mt-1.5 text-xs text-red-600">{errors.name.message}</p>
-          )}
-        </div>
-        <div>
-          <label htmlFor="company" className={labelClasses}>
-            Empresa
-          </label>
-          <input id="company" className={inputClasses} {...register("company")} />
-          {errors.company && (
-            <p className="mt-1.5 text-xs text-red-600">{errors.company.message}</p>
-          )}
-        </div>
-        <div>
-          <label htmlFor="phone" className={labelClasses}>
-            Telefone/WhatsApp
-          </label>
-          <input id="phone" className={inputClasses} {...register("phone")} />
-          {errors.phone && (
-            <p className="mt-1.5 text-xs text-red-600">{errors.phone.message}</p>
-          )}
-        </div>
-        <div>
-          <label htmlFor="email" className={labelClasses}>
-            E-mail
-          </label>
-          <input id="email" type="email" className={inputClasses} {...register("email")} />
-          {errors.email && (
-            <p className="mt-1.5 text-xs text-red-600">{errors.email.message}</p>
-          )}
-        </div>
-        <div>
-          <label htmlFor="city" className={labelClasses}>
-            Cidade
-          </label>
-          <input id="city" className={inputClasses} {...register("city")} />
-          {errors.city && (
-            <p className="mt-1.5 text-xs text-red-600">{errors.city.message}</p>
-          )}
-        </div>
-        <div>
-          <label htmlFor="employees" className={labelClasses}>
-            Quantidade de funcionários
-          </label>
-          <input id="employees" className={inputClasses} {...register("employees")} />
-          {errors.employees && (
-            <p className="mt-1.5 text-xs text-red-600">
-              {errors.employees.message}
-            </p>
-          )}
-        </div>
+        <Field
+          id="name"
+          label="Nome"
+          autoComplete="name"
+          error={errors.name}
+          registration={register("name")}
+        />
+        <Field
+          id="company"
+          label="Empresa"
+          autoComplete="organization"
+          error={errors.company}
+          registration={register("company")}
+        />
+        <Field
+          id="phone"
+          label="Telefone/WhatsApp"
+          type="tel"
+          inputMode="tel"
+          autoComplete="tel"
+          error={errors.phone}
+          registration={register("phone")}
+        />
+        <Field
+          id="email"
+          label="E-mail"
+          type="email"
+          inputMode="email"
+          autoComplete="email"
+          error={errors.email}
+          registration={register("email")}
+        />
+        <Field
+          id="city"
+          label="Cidade"
+          autoComplete="address-level2"
+          error={errors.city}
+          registration={register("city")}
+        />
+        <Field
+          id="employees"
+          label="Quantidade de funcionários"
+          inputMode="numeric"
+          error={errors.employees}
+          registration={register("employees")}
+        />
       </div>
 
       <div>
         <label htmlFor="service" className={labelClasses}>
           Serviço de interesse
+          <RequiredMark />
         </label>
         <select
           id="service"
           defaultValue=""
           className={inputClasses}
+          aria-invalid={errors.service ? true : undefined}
+          aria-describedby={errors.service ? "service-error" : undefined}
           {...register("service")}
         >
           <option value="" disabled>
@@ -173,24 +222,23 @@ export function ContactForm() {
             </option>
           ))}
         </select>
-        {errors.service && (
-          <p className="mt-1.5 text-xs text-red-600">{errors.service.message}</p>
-        )}
+        <ErrorMessage id="service-error" error={errors.service} />
       </div>
 
       <div>
         <label htmlFor="message" className={labelClasses}>
           Mensagem
+          <RequiredMark />
         </label>
         <textarea
           id="message"
           rows={4}
           className={inputClasses}
+          aria-invalid={errors.message ? true : undefined}
+          aria-describedby={errors.message ? "message-error" : undefined}
           {...register("message")}
         />
-        {errors.message && (
-          <p className="mt-1.5 text-xs text-red-600">{errors.message.message}</p>
-        )}
+        <ErrorMessage id="message-error" error={errors.message} />
       </div>
 
       <button

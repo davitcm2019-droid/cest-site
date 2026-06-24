@@ -80,15 +80,16 @@ export function Header() {
           type="button"
           aria-label={open ? "Fechar menu" : "Abrir menu"}
           aria-expanded={open}
+          aria-controls="mobile-nav"
           onClick={() => setOpen((v) => !v)}
-          className="flex h-10 w-10 items-center justify-center rounded-md text-brand-dark lg:hidden"
+          className="flex h-11 w-11 items-center justify-center rounded-md text-brand-dark lg:hidden"
         >
           {open ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
         </button>
       </div>
 
       {open && (
-        <div className="border-t border-graphite/10 bg-white px-4 pb-6 pt-2 lg:hidden">
+        <div id="mobile-nav" className="border-t border-graphite/10 bg-white px-4 pb-6 pt-2 lg:hidden">
           <nav className="flex flex-col gap-1">
             {siteConfig.nav.map((item) => (
               <Link
