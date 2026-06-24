@@ -24,7 +24,16 @@ function DropdownMenu({
 }) {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
+  const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const isActive = item.children.some((c) => c.href === pathname);
+
+  const cancelClose = () => {
+    if (closeTimer.current) clearTimeout(closeTimer.current);
+  };
+
+  const scheduleClose = () => {
+    closeTimer.current = setTimeout(() => setOpen(false), 150);
+  };
 
   useEffect(() => {
     const handler = (e: MouseEvent) => {
@@ -33,15 +42,18 @@ function DropdownMenu({
       }
     };
     document.addEventListener("mousedown", handler);
-    return () => document.removeEventListener("mousedown", handler);
+    return () => {
+      document.removeEventListener("mousedown", handler);
+      if (closeTimer.current) clearTimeout(closeTimer.current);
+    };
   }, []);
 
   return (
     <div
       ref={ref}
       className="relative"
-      onMouseEnter={() => setOpen(true)}
-      onMouseLeave={() => setOpen(false)}
+      onMouseEnter={() => { cancelClose(); setOpen(true); }}
+      onMouseLeave={scheduleClose}
     >
       <button
         type="button"
@@ -61,7 +73,8 @@ function DropdownMenu({
       </button>
 
       {open && (
-        <div className="animate-fade-in absolute left-0 top-full z-50 mt-2 min-w-[210px] rounded-xl border border-graphite/10 bg-white py-1.5 shadow-lg">
+        <div className="animate-fade-in absolute left-0 top-full z-50 min-w-[210px] pt-2">
+          <div className="rounded-xl border border-graphite/10 bg-white py-1.5 shadow-lg">
           {item.children.map((child) => (
             <Link
               key={child.href}
@@ -75,6 +88,7 @@ function DropdownMenu({
               {child.label}
             </Link>
           ))}
+          </div>
         </div>
       )}
     </div>
