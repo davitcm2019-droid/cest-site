@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { ShieldCheck, Phone, Mail, MapPin } from "lucide-react";
+import Image from "next/image";
+import { Phone, Mail, MapPin } from "lucide-react";
 import { siteConfig } from "@/config/siteConfig";
 
 const footerColumns = [
@@ -34,12 +35,13 @@ export function Footer() {
         <div className="grid grid-cols-1 gap-12 lg:grid-cols-4">
           <div className="lg:col-span-2">
             <Link href="/" className="flex items-center gap-2">
-              <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-white/10">
-                <ShieldCheck className="h-5 w-5 text-brand-accent" />
-              </span>
-              <span className="font-display text-lg font-extrabold tracking-tight">
-                {siteConfig.name}
-              </span>
+              <Image
+                src="/logo.png"
+                alt={siteConfig.name}
+                width={140}
+                height={48}
+                className="h-12 w-auto object-contain brightness-0 invert"
+              />
             </Link>
             <p className="mt-4 max-w-sm text-sm leading-relaxed text-white/70">
               {siteConfig.slogan}

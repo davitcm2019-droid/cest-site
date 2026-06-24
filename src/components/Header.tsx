@@ -2,8 +2,9 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { Menu, X, ShieldCheck } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { siteConfig, whatsappLink } from "@/config/siteConfig";
 import { cn } from "@/lib/utils";
 
@@ -36,12 +37,14 @@ export function Header() {
     >
       <div className="mx-auto flex h-18 max-w-7xl items-center justify-between gap-4 px-4 py-3 sm:px-6 lg:px-8">
         <Link href="/" className="flex items-center gap-2 shrink-0">
-          <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-brand-dark">
-            <ShieldCheck className="h-5 w-5 text-brand-accent" />
-          </span>
-          <span className="font-display text-lg font-extrabold tracking-tight text-brand-dark">
-            {siteConfig.name}
-          </span>
+          <Image
+            src="/logo.png"
+            alt={siteConfig.name}
+            width={140}
+            height={48}
+            className="h-12 w-auto object-contain"
+            priority
+          />
         </Link>
 
         <nav className="hidden items-center gap-6 lg:flex">
