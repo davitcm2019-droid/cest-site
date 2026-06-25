@@ -12,7 +12,7 @@ export const siteConfig = {
     whatsapp: "551632526778",
     whatsappDisplay: "(16) 3252-6778",
     email: "cest@cest.eng.br",
-    address: "Praça Waldemar D'Ambrósio, 130 - Centro, CEP 15900-000",
+    address: "Praça Waldemar D'Ambrósio, 116 - Centro, CEP 15900-024",
     city: "Taquaritinga - SP",
   },
 
