@@ -13,7 +13,7 @@ export function ServiceCard({ service, delay = 0 }: ServiceCardProps) {
 
   return (
     <RevealOnScroll delay={delay} className="h-full">
-      <div className="group h-full rounded-2xl border border-graphite/10 bg-white p-7 shadow-sm transition-all duration-300 hover:-translate-y-1.5 hover:border-brand/30 hover:shadow-xl hover:shadow-brand-dark/10">
+      <div className="group h-full rounded-lg border border-graphite/10 bg-white p-7 transition-colors duration-300 hover:border-brand/30 hover:bg-mist/40">
         <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-brand-dark/5 text-brand transition-colors duration-300 group-hover:bg-brand-dark group-hover:text-brand-accent">
           <Icon className="h-6 w-6" strokeWidth={1.75} />
         </div>

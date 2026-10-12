@@ -92,11 +92,10 @@ function Field({ id, label, error, registration, ...inputProps }: FieldProps) {
 }
 
 export function ContactForm() {
-  const [submitted, setSubmitted] = useState(false);
+  const [preparedLink, setPreparedLink] = useState<string | null>(null);
   const {
     register,
     handleSubmit,
-    reset,
     formState: { errors, isSubmitting },
   } = useForm<FormData>({ resolver: zodResolver(schema) });
 
@@ -113,28 +112,34 @@ export function ContactForm() {
       `Mensagem: ${data.message}`,
     ].join("\n");
 
-    window.open(whatsappLink(message), "_blank", "noopener,noreferrer");
-    setSubmitted(true);
-    reset();
+    setPreparedLink(whatsappLink(message));
   };
 
-  if (submitted) {
+  if (preparedLink) {
     return (
       <div className="flex flex-col items-center rounded-2xl border border-brand/20 bg-mist px-6 py-14 text-center">
         <CheckCircle2 className="h-12 w-12 text-brand" />
         <h3 className="mt-4 text-lg font-bold text-brand-dark">
-          Solicitação enviada
+          Sua mensagem está pronta
         </h3>
         <p className="mt-2 max-w-sm text-sm text-graphite/70">
-          Abrimos o WhatsApp com sua mensagem pronta. Caso a janela não tenha
-          aberto, confira o bloqueador de pop-ups do navegador.
+          Continue para o WhatsApp, revise os dados e confirme o envio para
+          nossa equipe. A solicitação só será enviada quando você confirmar lá.
         </p>
+        <a
+          href={preparedLink}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="button button-dark mt-6"
+        >
+          Continuar no WhatsApp <Send size={16} />
+        </a>
         <button
           type="button"
-          onClick={() => setSubmitted(false)}
+          onClick={() => setPreparedLink(null)}
           className="mt-6 text-sm font-semibold text-brand hover:text-brand-dark"
         >
-          Enviar nova solicitação
+          Revisar meus dados
         </button>
       </div>
     );
@@ -146,8 +151,9 @@ export function ContactForm() {
       noValidate
       className="space-y-5 rounded-2xl border border-graphite/10 bg-white p-6 sm:p-8"
     >
-      <p className="text-xs text-graphite/60">
-        Campos marcados com <span className="text-red-600">*</span> são
+      <p className="text-xs text-graphite/75">
+        Prepare sua mensagem e confirme o envio no WhatsApp. Não inclua dados de
+        saúde. Campos marcados com <span className="text-red-600">*</span> são
         obrigatórios.
       </p>
 
@@ -251,8 +257,9 @@ export function ContactForm() {
         ) : (
           <Send className="h-4 w-4" />
         )}
-        Solicitar orçamento
+        Preparar mensagem para WhatsApp
       </button>
     </form>
   );
 }
+

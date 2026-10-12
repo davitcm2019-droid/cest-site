@@ -1,32 +1,44 @@
 export const blogPosts = [
   {
-    title: "O que é PGR e por que sua empresa precisa manter atualizado",
-    category: "Segurança do Trabalho",
-    readingTime: "4 min",
-  },
-  {
-    title: "Diferença entre PGR, PCMSO, LTCAT e PPP",
-    category: "Documentação SST",
-    readingTime: "5 min",
-  },
-  {
-    title: "Quais eventos de SST devem ser enviados ao eSocial",
-    category: "eSocial SST",
-    readingTime: "4 min",
-  },
-  {
-    title: "Quando uma empresa precisa de laudo de insalubridade",
-    category: "Laudos Técnicos",
-    readingTime: "5 min",
-  },
-  {
-    title: "A importância da gestão de EPIs",
+    title: "PGR e gestão de riscos: por onde começar",
     category: "Prevenção",
-    readingTime: "3 min",
+    excerpt:
+      "Conheça como o levantamento das atividades, o inventário de riscos e o plano de ação se conectam à rotina da sua empresa.",
+    href: "/servicos",
   },
   {
-    title: "Treinamentos obrigatórios de Segurança do Trabalho",
+    title: "Saúde ocupacional integrada à prevenção",
+    category: "Pessoas",
+    excerpt:
+      "Entenda a relação entre os riscos identificados, o PCMSO, os exames ocupacionais e o acompanhamento dos trabalhadores.",
+    href: "/medicina-ocupacional",
+  },
+  {
+    title: "Organize as informações de SST para o eSocial",
+    category: "eSocial SST",
+    excerpt:
+      "Veja como a CEST apoia a conferência de dados e a organização dos eventos de SST da sua empresa.",
+    href: "/esocial-sst",
+  },
+  {
+    title: "Laudos que retratam a realidade da operação",
+    category: "Engenharia",
+    excerpt:
+      "Conheça as avaliações ambientais, os laudos técnicos e a importância de uma análise fundamentada das condições de trabalho.",
+    href: "/laudos-tecnicos",
+  },
+  {
+    title: "Ergonomia no dia a dia da empresa",
+    category: "Cuidado",
+    excerpt:
+      "Postos, esforços e organização do trabalho: descubra como a avaliação ergonômica pode orientar melhorias na sua operação.",
+    href: "/ergonomia",
+  },
+  {
+    title: "Conhecimento que se aplica ao trabalho",
     category: "Treinamentos",
-    readingTime: "4 min",
+    excerpt:
+      "Explore as capacitações disponíveis e converse com nossa equipe sobre os treinamentos adequados às atividades da empresa.",
+    href: "/treinamentos",
   },
 ];

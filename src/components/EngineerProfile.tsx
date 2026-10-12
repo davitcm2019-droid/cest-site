@@ -26,6 +26,7 @@ export function EngineerProfile() {
               src="/eduardo.png"
               alt={siteConfig.engineer.name}
               fill
+              sizes="(max-width: 1024px) 90vw, 40vw"
               className="object-cover object-top"
             />
           </div>
@@ -34,7 +35,9 @@ export function EngineerProfile() {
               <p className="font-display text-lg font-bold text-brand-dark">
                 {siteConfig.engineer.name}
               </p>
-              <p className="text-sm text-graphite/60">{siteConfig.engineer.role}</p>
+              <p className="text-sm text-graphite/75">
+                {siteConfig.engineer.role}
+              </p>
             </div>
             <div className="flex items-center gap-2 border-t border-graphite/10 pt-3 text-sm font-medium text-graphite/70">
               <Award className="h-4 w-4 text-brand" />
@@ -65,7 +68,7 @@ export function EngineerProfile() {
         </RevealOnScroll>
 
         <RevealOnScroll delay={0.1}>
-          <h3 className="mt-8 text-sm font-semibold uppercase tracking-wider text-white/50">
+          <h3 className="mt-8 text-sm font-semibold uppercase tracking-wider text-white/75">
             Áreas de atuação
           </h3>
           <div className="mt-4 grid grid-cols-1 gap-2.5 sm:grid-cols-2">
@@ -84,3 +87,4 @@ export function EngineerProfile() {
     </div>
   );
 }
+

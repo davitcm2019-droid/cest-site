@@ -101,9 +101,14 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
+        <a href="#conteudo" className="skip-link">
+          Pular para o conteúdo
+        </a>
         <ScrollProgressBar />
         <Header />
-        <main className="flex-1">{children}</main>
+        <main id="conteudo" className="flex-1" tabIndex={-1}>
+          {children}
+        </main>
         <Footer />
         <WhatsAppFloatingButton />
       </body>

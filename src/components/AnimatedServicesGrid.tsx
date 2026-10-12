@@ -1,178 +1,185 @@
 "use client";
 
-import { useRef } from "react";
-import { useGSAP } from "@gsap/react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { serviceIcons } from "@/components/service-icons";
-import { services } from "@/data/services";
-import { Check } from "lucide-react";
+import { useState } from "react";
+import Link from "next/link";
+import {
+  ArrowUpRight,
+  ArrowRight,
+  Check,
+  ShieldCheck,
+  HeartPulse,
+  FileCheck2,
+  GraduationCap,
+} from "lucide-react";
 
-gsap.registerPlugin(ScrollTrigger);
+const groups = [
+  {
+    label: "Gestão de riscos",
+    icon: ShieldCheck,
+    tag: "PREVENIR É O PRIMEIRO PASSO",
+    title: "Conheça os riscos.\nDecida com segurança.",
+    description:
+      "Transformamos a realidade da sua operação em um plano de prevenção claro, com prioridades, responsabilidades e orientação para agir.",
+    items: [
+      "PGR e gerenciamento de riscos",
+      "Avaliações ambientais",
+      "Ergonomia e gestão de EPIs",
+    ],
+    href: "/servicos#catalogo",
+    cta: "Conhecer a gestão de riscos",
+    short: "Prevenção",
+  },
+  {
+    label: "Saúde ocupacional",
+    icon: HeartPulse,
+    tag: "PESSOAS NO CENTRO",
+    title: "Saúde acompanhada.\nRotina mais organizada.",
+    description:
+      "Integre o acompanhamento da saúde dos trabalhadores aos riscos identificados no ambiente de trabalho, com orientação sobre exames e vencimentos.",
+    items: [
+      "PCMSO integrado ao PGR",
+      "Exames ocupacionais e ASO",
+      "Acompanhamento de vencimentos",
+    ],
+    href: "/medicina-ocupacional",
+    cta: "Explorar saúde ocupacional",
+    short: "Cuidado",
+  },
+  {
+    label: "Documentos e eSocial",
+    icon: FileCheck2,
+    tag: "INFORMAÇÕES QUE CONVERSAM",
+    title: "Documentação coerente.\nInformação confiável.",
+    description:
+      "Organize laudos e informações de SST com uma base técnica consistente para apoiar o RH, os registros previdenciários e os eventos do eSocial.",
+    items: [
+      "LTCAT, PPP e laudos técnicos",
+      "Eventos S-2210, S-2220 e S-2240",
+      "Conferência e organização de dados",
+    ],
+    href: "/esocial-sst",
+    cta: "Conhecer o eSocial SST",
+    short: "Clareza",
+  },
+  {
+    label: "Treinamentos",
+    icon: GraduationCap,
+    tag: "CONHECIMENTO QUE VIRA PRÁTICA",
+    title: "Equipes orientadas.\nPrevenção no dia a dia.",
+    description:
+      "Capacitações conectadas às atividades e aos riscos da sua empresa, com linguagem acessível e foco na aplicação prática do conhecimento.",
+    items: [
+      "Integração e uso de EPIs",
+      "CIPA, Brigada e atividades específicas",
+      "Capacitações conforme a necessidade",
+    ],
+    href: "/treinamentos",
+    cta: "Ver os treinamentos",
+    short: "Conhecimento",
+  },
+];
 
 export function AnimatedServicesGrid() {
-  const sectionRef = useRef<HTMLDivElement>(null);
-  const headingRef = useRef<HTMLDivElement>(null);
-  const gridRef = useRef<HTMLDivElement>(null);
-
-  useGSAP(
-    () => {
-      if (!headingRef.current || !gridRef.current) return;
-
-      // Heading elements
-      gsap.fromTo(
-        headingRef.current.querySelectorAll(".svc-eyebrow, .svc-title"),
-        { y: 24, opacity: 0 },
-        {
-          y: 0,
-          opacity: 1,
-          duration: 0.7,
-          stagger: 0.1,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: headingRef.current,
-            start: "top 90%",
-            once: true,
-          },
-        }
-      );
-
-      // Divider line
-      const line = headingRef.current.querySelector(".svc-line");
-      if (line) {
-        gsap.fromTo(
-          line,
-          { scaleX: 0, transformOrigin: "left center" },
-          {
-            scaleX: 1,
-            duration: 1.2,
-            ease: "power3.out",
-            delay: 0.2,
-            scrollTrigger: {
-              trigger: headingRef.current,
-              start: "top 90%",
-              once: true,
-            },
-          }
-        );
-      }
-
-      // Cards
-      const cards = gridRef.current.querySelectorAll(".svc-card");
-      gsap.fromTo(
-        cards,
-        { y: 48, opacity: 0 },
-        {
-          y: 0,
-          opacity: 1,
-          duration: 0.7,
-          stagger: 0.07,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: gridRef.current,
-            start: "top 88%",
-            once: true,
-          },
-        }
-      );
-
-      // Icons
-      const icons = gridRef.current.querySelectorAll(".svc-icon");
-      gsap.fromTo(
-        icons,
-        { scale: 0.5, opacity: 0 },
-        {
-          scale: 1,
-          opacity: 1,
-          duration: 0.5,
-          stagger: 0.07,
-          ease: "back.out(1.7)",
-          delay: 0.1,
-          scrollTrigger: {
-            trigger: gridRef.current,
-            start: "top 88%",
-            once: true,
-          },
-        }
-      );
-    },
-    { scope: sectionRef }
-  );
-
+  const [active, setActive] = useState(0);
+  const group = groups[active];
+  const Icon = group.icon;
   return (
-    <div ref={sectionRef} className="bg-brand-dark py-24 sm:py-32">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-
-        {/* Heading */}
-        <div ref={headingRef} className="mb-16">
-          <p className="svc-eyebrow text-xs font-semibold uppercase tracking-[0.28em] text-brand-accent">
-            Programas e documentos
-          </p>
-          <div className="mt-4 flex items-center gap-8">
-            <h2 className="svc-title shrink-0 text-4xl font-extrabold tracking-tight text-white sm:text-5xl">
-              Serviços principais
+    <section id="solucoes" className="solutions-section section-space">
+      <div className="site-shell">
+        <div className="section-heading">
+          <div>
+            <span className="eyebrow">01 / Nossas soluções</span>
+            <h2>
+              Uma visão completa.
+              <br />
+              <span className="muted-heading">Um cuidado integrado.</span>
             </h2>
-            <div className="svc-line h-px w-full bg-white/15" />
+          </div>
+          <p>
+            As necessidades da sua empresa se conectam.
+            <br />
+            Nossas soluções também.
+          </p>
+        </div>
+        <div
+          className="solution-tabs"
+          role="tablist"
+          aria-label="Áreas de atuação"
+        >
+          {groups.map((item, index) => (
+            <button
+              key={item.label}
+              id={"solution-tab-" + index}
+              type="button"
+              role="tab"
+              aria-selected={active === index}
+              aria-controls="solution-panel"
+              tabIndex={active === index ? 0 : -1}
+              onClick={() => setActive(index)}
+              onKeyDown={(event) => {
+                let next = index;
+                if (event.key === "ArrowRight")
+                  next = (index + 1) % groups.length;
+                else if (event.key === "ArrowLeft")
+                  next = (index + groups.length - 1) % groups.length;
+                else if (event.key === "Home") next = 0;
+                else if (event.key === "End") next = groups.length - 1;
+                else return;
+                event.preventDefault();
+                setActive(next);
+                document.getElementById("solution-tab-" + next)?.focus();
+              }}
+            >
+              <span>0{index + 1}</span>
+              {item.label}
+              <ArrowUpRight size={17} />
+            </button>
+          ))}
+        </div>
+        <div
+          className="solution-panel"
+          role="tabpanel"
+          id="solution-panel"
+          aria-labelledby={"solution-tab-" + active}
+          tabIndex={0}
+        >
+          <div className="solution-content" key={group.label}>
+            <span className="eyebrow">{group.tag}</span>
+            <h3>{group.title}</h3>
+            <p>{group.description}</p>
+            <ul>
+              {group.items.map((item) => (
+                <li key={item}>
+                  <Check size={17} />
+                  {item}
+                </li>
+              ))}
+            </ul>
+            <Link className="text-link" href={group.href}>
+              {group.cta}
+              <ArrowRight size={18} />
+            </Link>
+          </div>
+          <div className="solution-diagram" aria-hidden="true">
+            <span className="diagram-corner">SST / INTEGRADA</span>
+            <div className="diagram-orbit orbit-one" />
+            <div className="diagram-orbit orbit-two" />
+            <div className="diagram-center">
+              <Icon size={42} strokeWidth={1.3} />
+              <span>{group.short}</span>
+            </div>
+            <span className="diagram-label label-one">Sua empresa</span>
+            <span className="diagram-label label-two">Nossa expertise</span>
+            <span className="diagram-index">0{active + 1}</span>
           </div>
         </div>
-
-        {/* Grid */}
-        <div
-          ref={gridRef}
-          className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4"
-        >
-          {services.map((service, i) => {
-            const Icon = serviceIcons[service.slug] ?? Check;
-            const num = String(i + 1).padStart(2, "0");
-
-            return (
-              <div
-                key={service.slug}
-                className="svc-card group relative flex flex-col rounded-2xl border border-white/10 bg-white/[0.04] p-7 transition-all duration-500 hover:-translate-y-1 hover:border-brand-accent/25 hover:bg-white/[0.08] hover:shadow-2xl hover:shadow-black/40"
-              >
-                {/* Ghost number */}
-                <span
-                  aria-hidden
-                  className="pointer-events-none absolute bottom-4 right-5 select-none font-display text-8xl font-extrabold leading-none text-white/[0.035]"
-                >
-                  {num}
-                </span>
-
-                {/* Top row */}
-                <div className="flex items-center justify-between">
-                  <span className="text-xs font-bold tracking-[0.2em] text-brand-accent">
-                    {num}
-                  </span>
-                  <div className="svc-icon flex h-11 w-11 items-center justify-center rounded-xl border border-white/10 bg-white/5 text-white/40 transition-all duration-300 group-hover:border-brand-accent/30 group-hover:bg-brand-accent/10 group-hover:text-brand-accent">
-                    <Icon className="h-5 w-5" strokeWidth={1.75} />
-                  </div>
-                </div>
-
-                {/* Content */}
-                <h3 className="mt-6 text-lg font-bold leading-snug text-white">
-                  {service.title}
-                </h3>
-                <p className="mt-2 text-sm leading-relaxed text-white/55">
-                  {service.description}
-                </p>
-
-                {/* Items */}
-                <ul className="mt-6 space-y-2 border-t border-white/10 pt-5">
-                  {service.items.map((item) => (
-                    <li
-                      key={item}
-                      className="flex items-center gap-2.5 text-xs font-medium text-white/65"
-                    >
-                      <span className="h-px w-3 shrink-0 rounded-full bg-brand-accent/70" />
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            );
-          })}
+        <div className="solutions-footer">
+          <span>Da necessidade pontual à gestão contínua.</span>
+          <Link href="/servicos" className="text-link">
+            Veja todos os serviços <ArrowUpRight size={17} />
+          </Link>
         </div>
       </div>
-    </div>
+    </section>
   );
 }
