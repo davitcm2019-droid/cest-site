@@ -13,7 +13,7 @@ const sections = [
   {
     title: "Dados coletados",
     content:
-      "Coletamos os dados informados voluntariamente em formulários de contato, como nome, empresa, telefone, e-mail, cidade e mensagem, além de dados de navegação coletados de forma automática para fins estatísticos.",
+      "O formulário prepara uma mensagem no seu navegador com os dados que você informa, como nome, empresa, telefone, e-mail, cidade e necessidade de atendimento. Esses dados não são enviados automaticamente pelo formulário: você decide continuar e confirmar o envio no WhatsApp. Não inclua informações de saúde ou documentos pessoais nessa mensagem.",
   },
   {
     title: "Finalidade",
@@ -21,9 +21,9 @@ const sections = [
       "Os dados são utilizados exclusivamente para responder solicitações de contato, elaborar propostas comerciais e manter comunicação relacionada aos serviços da CEST.",
   },
   {
-    title: "Tratamento",
+    title: "WhatsApp e hospedagem",
     content:
-      "Os dados pessoais são tratados com confidencialidade e não são compartilhados com terceiros para fins comerciais, sendo utilizados somente pela equipe da CEST para os fins descritos nesta política.",
+      "Ao continuar para o WhatsApp, você passa a utilizar um serviço externo, sujeito às suas próprias condições e política de privacidade. O site é hospedado na Vercel, que pode processar registros técnicos de acesso para seu funcionamento e segurança. Esta versão não integra ferramentas de publicidade ou analytics no código do site.",
   },
   {
     title: "LGPD",

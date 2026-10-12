@@ -17,6 +17,7 @@ const channels = [
     icon: Phone,
     label: "Telefone",
     value: siteConfig.contact.phoneDisplay,
+    href: "tel:+551632526778",
   },
   {
     icon: MessageCircle,
@@ -49,7 +50,10 @@ export default function ContatoPage() {
       <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6 sm:py-28 lg:px-8">
         <div className="grid grid-cols-1 gap-12 lg:grid-cols-5 lg:gap-16">
           <div className="lg:col-span-2">
-            <SectionTitle eyebrow="Canais de atendimento" title="Como falar com a gente" />
+            <SectionTitle
+              eyebrow="Canais de atendimento"
+              title="Como falar com a gente"
+            />
             <div className="mt-8 space-y-4">
               {channels.map((channel, index) => {
                 const Icon = channel.icon;
@@ -59,7 +63,7 @@ export default function ContatoPage() {
                       <Icon className="h-5 w-5" strokeWidth={1.75} />
                     </span>
                     <div>
-                      <p className="text-xs font-semibold uppercase tracking-wider text-graphite/50">
+                      <p className="text-xs font-semibold uppercase tracking-wider text-graphite/75">
                         {channel.label}
                       </p>
                       <p className="text-sm font-medium text-graphite/85">
@@ -73,8 +77,14 @@ export default function ContatoPage() {
                     {channel.href ? (
                       <a
                         href={channel.href}
-                        target={channel.href.startsWith("http") ? "_blank" : undefined}
-                        rel={channel.href.startsWith("http") ? "noopener noreferrer" : undefined}
+                        target={
+                          channel.href.startsWith("http") ? "_blank" : undefined
+                        }
+                        rel={
+                          channel.href.startsWith("http")
+                            ? "noopener noreferrer"
+                            : undefined
+                        }
                       >
                         {content}
                       </a>

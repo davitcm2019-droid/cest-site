@@ -23,14 +23,14 @@ export function SectionTitle({
       className={cn(
         "max-w-2xl",
         align === "center" && "mx-auto text-center",
-        className
+        className,
       )}
     >
       {eyebrow && (
         <span
           className={cn(
             "mb-3 inline-block text-xs font-semibold uppercase tracking-[0.2em]",
-            light ? "text-brand-accent" : "text-brand"
+            light ? "text-brand-accent" : "text-brand",
           )}
         >
           {eyebrow}
@@ -38,8 +38,8 @@ export function SectionTitle({
       )}
       <h2
         className={cn(
-          "text-balance text-3xl font-bold leading-tight sm:text-4xl",
-          light ? "text-white" : "text-brand-dark"
+          "text-balance text-3xl font-medium tracking-[-0.045em] leading-tight sm:text-4xl",
+          light ? "text-white" : "text-brand-dark",
         )}
       >
         {title}
@@ -48,7 +48,7 @@ export function SectionTitle({
         <p
           className={cn(
             "mt-4 text-pretty text-base leading-relaxed sm:text-lg",
-            light ? "text-white/80" : "text-graphite/70"
+            light ? "text-white/80" : "text-graphite/70",
           )}
         >
           {description}

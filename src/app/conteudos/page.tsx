@@ -8,7 +8,7 @@ import { blogPosts } from "@/data/blog";
 export const metadata: Metadata = {
   title: "Conteúdos sobre Segurança do Trabalho",
   description:
-    "Artigos educativos sobre PGR, PCMSO, LTCAT, PPP, eSocial SST, laudos técnicos e treinamentos de Segurança do Trabalho.",
+    "Conheça os temas de Segurança do Trabalho e explore as soluções da CEST para sua empresa.",
 };
 
 export default function ConteudosPage() {
@@ -16,12 +16,15 @@ export default function ConteudosPage() {
     <>
       <PageHero
         eyebrow="Conteúdos"
-        title="Artigos sobre Segurança do Trabalho"
-        description="Conteúdos educativos para ajudar sua empresa a entender obrigações, documentos e boas práticas de SST."
+        title="Informação clara para cuidar melhor da sua empresa"
+        description="Explore os temas de SST, conheça nossas soluções e encontre o apoio técnico para o próximo passo."
       />
 
       <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6 sm:py-28 lg:px-8">
-        <SectionTitle eyebrow="Blog" title="Últimos conteúdos" />
+        <SectionTitle
+          eyebrow="Explore por assunto"
+          title="O que sua empresa precisa entender hoje?"
+        />
         <div className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {blogPosts.map((post, index) => (
             <BlogCard key={post.title} {...post} delay={index * 0.06} />

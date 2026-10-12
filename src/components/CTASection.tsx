@@ -1,41 +1,40 @@
 import Link from "next/link";
+import { ArrowUpRight } from "lucide-react";
 import { siteConfig, whatsappLink } from "@/config/siteConfig";
-import { SectionTitle } from "@/components/SectionTitle";
-
 type CTASectionProps = {
   title?: string;
   description?: string;
   primaryLabel?: string;
   primaryHref?: string;
 };
-
 export function CTASection({
-  title = "Pronto para organizar a Segurança do Trabalho da sua empresa?",
-  description = "Fale com a equipe técnica da CEST e entenda como estruturar PGR, PCMSO, LTCAT, eSocial SST e treinamentos de forma integrada.",
+  title = "Sua empresa mais segura. Seu próximo passo, mais simples.",
+  description = "Conte com a CEST para transformar as necessidades de SST em um caminho claro de prevenção e cuidado.",
   primaryLabel = siteConfig.ctas.primary,
   primaryHref = "/contato",
 }: CTASectionProps) {
   return (
-    <section className="relative overflow-hidden bg-brand-dark py-20 sm:py-24">
-      <div className="bg-grid-technical pointer-events-none absolute inset-0" />
-      <div className="relative mx-auto max-w-4xl px-4 text-center sm:px-6 lg:px-8">
-        <SectionTitle title={title} description={description} align="center" light />
-        <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
-          <Link
-            href={primaryHref}
-            className="w-full rounded-full bg-brand-accent px-8 py-3.5 text-center text-sm font-bold text-brand-dark shadow-lg transition-transform duration-300 hover:scale-105 sm:w-auto"
-          >
+    <section className="cta-section">
+      <div className="site-shell cta-inner">
+        <div>
+          <span className="eyebrow">VAMOS CONVERSAR?</span>
+          <h2>{title}</h2>
+          <p>{description}</p>
+        </div>
+        <div className="cta-actions">
+          <Link href={primaryHref} className="button button-dark">
             {primaryLabel}
+            <ArrowUpRight size={19} />
           </Link>
           <a
             href={whatsappLink(
-              "Olá! Gostaria de falar com um especialista da CEST."
+              "Olá! Gostaria de falar com a equipe da CEST sobre minha empresa.",
             )}
             target="_blank"
             rel="noopener noreferrer"
-            className="w-full rounded-full border border-white/30 px-8 py-3.5 text-center text-sm font-semibold text-white transition-colors duration-300 hover:bg-white/10 sm:w-auto"
+            className="text-link"
           >
-            {siteConfig.ctas.secondary}
+            Prefere WhatsApp? Fale por aqui <ArrowUpRight size={17} />
           </a>
         </div>
       </div>

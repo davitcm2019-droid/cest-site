@@ -2,7 +2,7 @@ export const siteConfig = {
   name: "CEST",
   fullName: "CEST — Consultoria e Assessoria em Segurança do Trabalho",
   slogan: "Mais do que documentos, gestão técnica em Segurança e Saúde do Trabalho.",
-  url: "https://www.cest-sst.com.br",
+  url: "https://cest-site.vercel.app",
   description:
     "Consultoria em Segurança do Trabalho para empresas. PGR, PCMSO, LTCAT, PPP, eSocial SST, laudos técnicos, treinamentos, ergonomia e gestão de EPIs.",
 
