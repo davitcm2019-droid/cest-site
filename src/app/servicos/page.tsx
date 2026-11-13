@@ -32,7 +32,7 @@ export default function ServicosPage() {
             description="Documentos e programas adicionais conforme a atividade e os riscos identificados na sua empresa."
           />
           <RevealOnScroll delay={0.1} className="mt-10">
-            <ul className="grid grid-cols-1 gap-3 rounded-2xl border border-graphite/10 bg-white p-8 sm:grid-cols-2">
+            <ul className="grid grid-cols-1 gap-3 rounded-2xl border border-graphite/10 bg-card p-8 sm:grid-cols-2">
               {additionalServices.map((item) => (
                 <li
                   key={item}

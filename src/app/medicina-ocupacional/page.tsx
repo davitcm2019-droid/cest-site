@@ -53,7 +53,7 @@ export default function MedicinaOcupacionalPage() {
         description="A CEST atua de forma integrada com Medicina Ocupacional para que o PCMSO esteja alinhado aos riscos identificados no PGR e à rotina da empresa."
       />
 
-      <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6 sm:py-28 lg:px-8">
+      <section className="mx-auto max-w-6xl px-4 py-20 sm:px-6 sm:py-28 lg:px-8">
         <SectionTitle
           eyebrow="O que cobrimos"
           title="Gestão da saúde ocupacional, do exame ao vencimento"

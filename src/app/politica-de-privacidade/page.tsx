@@ -49,7 +49,7 @@ export default function PoliticaDePrivacidadePage() {
         <div className="space-y-10">
           {sections.map((section, index) => (
             <RevealOnScroll key={section.title} delay={index * 0.05}>
-              <h2 className="text-xl font-bold text-brand-dark">
+              <h2 className="text-xl font-bold text-white">
                 {section.title}
               </h2>
               <p className="mt-3 text-base leading-relaxed text-graphite/70">

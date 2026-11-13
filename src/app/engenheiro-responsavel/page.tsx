@@ -18,7 +18,7 @@ export default function EngenheiroResponsavelPage() {
         description="Cada documento, laudo e treinamento da CEST é conduzido sob responsabilidade técnica, com fundamentação nas Normas Regulamentadoras."
       />
 
-      <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6 sm:py-28 lg:px-8">
+      <section className="mx-auto max-w-6xl px-4 py-20 sm:px-6 sm:py-28 lg:px-8">
         <EngineerProfile />
       </section>
 

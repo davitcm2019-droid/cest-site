@@ -1,20 +1,13 @@
-import type { Metadata } from "next";
-import { Inter, Manrope } from "next/font/google";
+import type { Metadata, Viewport } from "next";
+import { Figtree } from "next/font/google";
 import { siteConfig } from "@/config/siteConfig";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { WhatsAppFloatingButton } from "@/components/WhatsAppFloatingButton";
-import { ScrollProgressBar } from "@/components/ScrollProgressBar";
 import "./globals.css";
 
-const inter = Inter({
-  variable: "--font-inter",
-  subsets: ["latin"],
-  display: "swap",
-});
-
-const manrope = Manrope({
-  variable: "--font-manrope",
+const figtree = Figtree({
+  variable: "--font-figtree",
   subsets: ["latin"],
   display: "swap",
 });
@@ -59,6 +52,12 @@ export const metadata: Metadata = {
   },
 };
 
+/* The site is dark end to end: tint the browser chrome and native controls to match. */
+export const viewport: Viewport = {
+  themeColor: "#0a0c0b",
+  colorScheme: "dark",
+};
+
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "ProfessionalService",
@@ -94,16 +93,28 @@ export default function RootLayout({
   return (
     <html
       lang="pt-BR"
-      className={`${inter.variable} ${manrope.variable} h-full antialiased`}
+      className={`${figtree.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col bg-white text-graphite">
+      <body className="min-h-full flex flex-col bg-[#0a0c0b] text-white">
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
-        <ScrollProgressBar />
+        {/*
+          Keyboard and screen-reader users otherwise have to tab through the
+          whole header — including both nav dropdowns — on every page.
+          Visually hidden until focused.
+        */}
+        <a
+          href="#conteudo-principal"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[70] focus:rounded-lg focus:bg-brand-dark focus:px-5 focus:py-3 focus:text-sm focus:font-semibold focus:text-white"
+        >
+          Pular para o conteúdo principal
+        </a>
         <Header />
-        <main className="flex-1">{children}</main>
+        <main id="conteudo-principal" tabIndex={-1} className="flex-1">
+          {children}
+        </main>
         <Footer />
         <WhatsAppFloatingButton />
       </body>

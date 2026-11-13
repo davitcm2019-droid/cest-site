@@ -9,7 +9,7 @@ import {
 } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { CheckCircle2, Loader2, Send } from "lucide-react";
+import { CheckCircle2, ExternalLink, Loader2, Send } from "lucide-react";
 import { whatsappLink } from "@/config/siteConfig";
 
 const serviceOptions = [
@@ -27,27 +27,50 @@ const serviceOptions = [
   "Outros",
 ];
 
+/** Brazilian landline or mobile, with area code: 10 or 11 digits. */
+const BR_PHONE_DIGITS = /^\d{10,11}$/;
+
 const schema = z.object({
-  name: z.string().min(2, "Informe seu nome completo"),
-  company: z.string().min(2, "Informe o nome da empresa"),
-  phone: z.string().min(8, "Informe um telefone válido"),
-  email: z.string().email("Informe um e-mail válido"),
-  city: z.string().min(2, "Informe a cidade"),
-  employees: z.string().min(1, "Informe a quantidade de funcionários"),
+  name: z.string().trim().min(2, "Informe seu nome completo"),
+  company: z.string().trim().min(2, "Informe o nome da empresa"),
+  phone: z
+    .string()
+    .trim()
+    .refine((value) => BR_PHONE_DIGITS.test(value.replace(/\D/g, "")), {
+      message: "Informe DDD + número, ex.: (16) 99999-9999",
+    }),
+  email: z.string().trim().email("Informe um e-mail válido"),
+  city: z.string().trim().min(2, "Informe a cidade"),
+  employees: z
+    .string()
+    .trim()
+    .refine((value) => /^\d{1,6}$/.test(value.replace(/\D/g, "")), {
+      message: "Informe apenas números, ex.: 45",
+    }),
   service: z.string().min(1, "Selecione um serviço"),
-  message: z.string().min(10, "Conte um pouco mais sobre sua necessidade"),
+  message: z.string().trim().min(10, "Conte um pouco mais sobre sua necessidade"),
+  /*
+    Honeypot: invisible to people, irresistible to naive bots.
+
+    Deliberately NOT constrained to an empty string. A schema rule would fail
+    validation before the submit handler runs, and since this field is hidden
+    the user would face a form that refuses to submit with nothing on screen
+    explaining why — the exact trap a stray autofill would spring. The value is
+    inspected in the submit handler instead.
+  */
+  website: z.string().optional(),
 });
 
 type FormData = z.infer<typeof schema>;
 
 const inputClasses =
-  "w-full rounded-lg border border-graphite/15 bg-white px-4 py-3 text-sm text-graphite outline-none transition-colors placeholder:text-graphite/40 focus:border-brand focus:ring-2 focus:ring-brand/20 aria-[invalid=true]:border-red-500";
+  "w-full rounded-lg border border-graphite/15 bg-card px-4 py-3 text-sm text-graphite outline-none transition-colors placeholder:text-graphite/40 focus:border-brand focus:ring-2 focus:ring-brand/20 aria-[invalid=true]:border-red-400";
 
 const labelClasses = "mb-1.5 block text-sm font-medium text-graphite/80";
 
 function RequiredMark() {
   return (
-    <span className="text-red-600" aria-hidden="true">
+    <span className="text-red-300" aria-hidden="true">
       {" "}
       *
     </span>
@@ -57,7 +80,7 @@ function RequiredMark() {
 function ErrorMessage({ id, error }: { id: string; error?: FieldError }) {
   if (!error) return null;
   return (
-    <p id={id} role="alert" className="mt-1.5 text-xs text-red-600">
+    <p id={id} className="mt-1.5 text-xs text-red-300">
       {error.message}
     </p>
   );
@@ -91,16 +114,44 @@ function Field({ id, label, error, registration, ...inputProps }: FieldProps) {
   );
 }
 
+const fieldLabels: Record<string, string> = {
+  name: "Nome",
+  company: "Empresa",
+  phone: "Telefone/WhatsApp",
+  email: "E-mail",
+  city: "Cidade",
+  employees: "Quantidade de funcionários",
+  service: "Serviço de interesse",
+  message: "Mensagem",
+};
+
 export function ContactForm() {
-  const [submitted, setSubmitted] = useState(false);
+  // Holds the composed WhatsApp URL after a successful submit, so the success
+  // screen can offer it as a real link. The previous version only called
+  // window.open(); when a popup blocker swallowed that call the lead was lost
+  // with no way to recover it.
+  const [sentLink, setSentLink] = useState<string | null>(null);
+
   const {
     register,
     handleSubmit,
     reset,
-    formState: { errors, isSubmitting },
+    formState: { errors, isSubmitting, submitCount },
   } = useForm<FormData>({ resolver: zodResolver(schema) });
 
+  const errorEntries = Object.entries(errors).filter(
+    ([field]) => field !== "website"
+  );
+
   const onSubmit = async (data: FormData) => {
+    // A filled honeypot means a bot. Show the normal success state so the bot
+    // learns nothing, but send nothing.
+    if (data.website) {
+      setSentLink(null);
+      reset();
+      return;
+    }
+
     const message = [
       "Olá! Gostaria de solicitar um orçamento de Segurança do Trabalho.",
       `Nome: ${data.name}`,
@@ -113,26 +164,47 @@ export function ContactForm() {
       `Mensagem: ${data.message}`,
     ].join("\n");
 
-    window.open(whatsappLink(message), "_blank", "noopener,noreferrer");
-    setSubmitted(true);
+    const url = whatsappLink(message);
+
+    /*
+      `window.open` with `noopener` returns null by specification, even when the
+      window opened fine — so its return value cannot be used to detect a popup
+      blocker. Rather than guess (and risk telling every user their browser
+      blocked something it didn't), always hand them the link on the success
+      screen and word it for both outcomes.
+    */
+    window.open(url, "_blank", "noopener,noreferrer");
+
+    setSentLink(url);
     reset();
   };
 
-  if (submitted) {
+  if (sentLink) {
     return (
       <div className="flex flex-col items-center rounded-2xl border border-brand/20 bg-mist px-6 py-14 text-center">
-        <CheckCircle2 className="h-12 w-12 text-brand" />
-        <h3 className="mt-4 text-lg font-bold text-brand-dark">
-          Solicitação enviada
+        <CheckCircle2 className="h-12 w-12 text-brand" aria-hidden="true" />
+        <h3 className="mt-4 text-lg font-bold text-white">
+          Solicitação pronta
         </h3>
         <p className="mt-2 max-w-sm text-sm text-graphite/70">
-          Abrimos o WhatsApp com sua mensagem pronta. Caso a janela não tenha
-          aberto, confira o bloqueador de pop-ups do navegador.
+          Abrimos o WhatsApp com sua mensagem já preenchida. Se a janela não
+          apareceu — alguns navegadores bloqueiam —, use o botão abaixo.
         </p>
+
+        <a
+          href={sentLink}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="mt-6 inline-flex items-center justify-center gap-2 cursor-pointer rounded-lg bg-brand-accent px-6 py-3 text-sm font-semibold text-[#0a0c0b] transition-[filter] duration-200 hover:brightness-110"
+        >
+          <ExternalLink className="h-4 w-4" aria-hidden="true" />
+          Abrir conversa no WhatsApp
+        </a>
+
         <button
           type="button"
-          onClick={() => setSubmitted(false)}
-          className="mt-6 text-sm font-semibold text-brand hover:text-brand-dark"
+          onClick={() => setSentLink(null)}
+          className="mt-4 text-sm font-semibold text-brand hover:text-white"
         >
           Enviar nova solicitação
         </button>
@@ -142,14 +214,69 @@ export function ContactForm() {
 
   return (
     <form
+      // react-hook-form's `shouldFocusError` (on by default) already moves
+      // focus to the first invalid field on a failed submit, which is the
+      // behaviour we want. The summary below is the announcement, not the
+      // focus target — an extra focus() call here would only race with it.
       onSubmit={handleSubmit(onSubmit)}
       noValidate
-      className="space-y-5 rounded-2xl border border-graphite/10 bg-white p-6 sm:p-8"
+      className="space-y-5 rounded-2xl border border-graphite/10 bg-card p-6 sm:p-8"
     >
       <p className="text-xs text-graphite/60">
-        Campos marcados com <span className="text-red-600">*</span> são
+        Campos marcados com <span className="text-red-300">*</span> são
         obrigatórios.
       </p>
+
+      {/*
+        Single summary of everything that went wrong, announced via `aria-live`
+        so a screen-reader user hears the whole list instead of discovering
+        errors one field at a time. Each entry links to its field.
+      */}
+      <div
+        aria-live="assertive"
+        className={
+          errorEntries.length > 0
+            ? "rounded-lg border border-red-500/30 bg-red-500/10 p-4"
+            : "sr-only"
+        }
+      >
+        {errorEntries.length > 0 ? (
+          <>
+            <p className="text-sm font-semibold text-red-300">
+              {errorEntries.length === 1
+                ? "1 campo precisa ser corrigido:"
+                : `${errorEntries.length} campos precisam ser corrigidos:`}
+            </p>
+            <ul className="mt-2 space-y-1">
+              {errorEntries.map(([field, error]) => (
+                <li key={field} className="text-sm text-red-300">
+                  <a href={`#${field}`} className="underline">
+                    {fieldLabels[field] ?? field}
+                  </a>
+                  : {(error as FieldError)?.message}
+                </li>
+              ))}
+            </ul>
+          </>
+        ) : submitCount > 0 ? (
+          "Formulário válido."
+        ) : null}
+      </div>
+
+      {/*
+        Honeypot. Hidden from sight and from assistive tech, and explicitly
+        excluded from autofill so real users never populate it.
+      */}
+      <div aria-hidden="true" className="absolute left-[-9999px] h-0 w-0 overflow-hidden">
+        <label htmlFor="website">Não preencha este campo</label>
+        <input
+          id="website"
+          type="text"
+          tabIndex={-1}
+          autoComplete="off"
+          {...register("website")}
+        />
+      </div>
 
       <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
         <Field
@@ -172,6 +299,7 @@ export function ContactForm() {
           type="tel"
           inputMode="tel"
           autoComplete="tel"
+          placeholder="(16) 99999-9999"
           error={errors.phone}
           registration={register("phone")}
         />
@@ -181,6 +309,8 @@ export function ContactForm() {
           type="email"
           inputMode="email"
           autoComplete="email"
+          // An email address is not prose; the red squiggle is only noise here.
+          spellCheck={false}
           error={errors.email}
           registration={register("email")}
         />
@@ -195,6 +325,7 @@ export function ContactForm() {
           id="employees"
           label="Quantidade de funcionários"
           inputMode="numeric"
+          placeholder="45"
           error={errors.employees}
           registration={register("employees")}
         />
@@ -244,15 +375,20 @@ export function ContactForm() {
       <button
         type="submit"
         disabled={isSubmitting}
-        className="flex w-full items-center justify-center gap-2 rounded-full bg-brand-dark px-6 py-3.5 text-sm font-semibold text-white transition-colors hover:bg-brand disabled:opacity-60 sm:w-auto"
+        className="flex w-full items-center justify-center gap-2 cursor-pointer rounded-lg bg-brand-accent px-6 py-3.5 text-sm font-semibold text-[#0a0c0b] transition-[filter] duration-200 hover:brightness-110 disabled:opacity-60 sm:w-auto"
       >
         {isSubmitting ? (
-          <Loader2 className="h-4 w-4 animate-spin" />
+          <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />
         ) : (
-          <Send className="h-4 w-4" />
+          <Send className="h-4 w-4" aria-hidden="true" />
         )}
         Solicitar orçamento
       </button>
+
+      <p className="text-xs leading-relaxed text-graphite/55">
+        Ao enviar, sua mensagem é aberta no WhatsApp da CEST já preenchida. Nada
+        é armazenado neste site.
+      </p>
     </form>
   );
 }

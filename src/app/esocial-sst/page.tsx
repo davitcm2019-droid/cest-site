@@ -56,7 +56,7 @@ export default function EsocialSstPage() {
         description="A CEST apoia a estruturação dos dados necessários ao envio dos eventos de Segurança e Saúde do Trabalho, reduzindo inconsistências entre os documentos e as informações transmitidas."
       />
 
-      <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6 sm:py-28 lg:px-8">
+      <section className="mx-auto max-w-6xl px-4 py-20 sm:px-6 sm:py-28 lg:px-8">
         <SectionTitle eyebrow="Eventos de SST" title="Eventos que organizamos" />
         <div className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-3">
           {events.map((event, index) => (
@@ -66,7 +66,7 @@ export default function EsocialSstPage() {
       </section>
 
       <section className="bg-mist py-20 sm:py-28">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-6xl px-5 sm:px-8">
           <SectionTitle eyebrow="Benefícios" title="Por que organizar o eSocial SST com a CEST" />
           <div className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2">
             {benefits.map((benefit, index) => (

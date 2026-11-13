@@ -23,15 +23,19 @@ export function EngineerProfile() {
         <div className="overflow-hidden rounded-2xl border border-graphite/10 bg-mist">
           <div className="relative aspect-[4/5] w-full overflow-hidden">
             <Image
-              src="/eduardo.png"
-              alt={siteConfig.engineer.name}
+              src="/eduardo.webp"
+              alt={`${siteConfig.engineer.name}, ${siteConfig.engineer.role} da ${siteConfig.name}`}
               fill
+              // Without `sizes`, a `fill` image defaults to 100vw and the browser
+              // downloads the largest srcset candidate. This column is ~460px at
+              // the lg breakpoint and full-width below it.
+              sizes="(min-width: 1024px) 460px, 100vw"
               className="object-cover object-top"
             />
           </div>
           <div className="space-y-3 p-6">
             <div>
-              <p className="font-display text-lg font-bold text-brand-dark">
+              <p className="font-display text-lg font-bold text-white">
                 {siteConfig.engineer.name}
               </p>
               <p className="text-sm text-graphite/60">{siteConfig.engineer.role}</p>
@@ -44,7 +48,7 @@ export function EngineerProfile() {
         </div>
       </RevealOnScroll>
 
-      <div className="rounded-2xl bg-brand-dark p-8 lg:col-span-3">
+      <div className="c2-card p-8 lg:col-span-3">
         <RevealOnScroll>
           <span className="mb-3 inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-brand-accent">
             <ShieldCheck className="h-4 w-4" />

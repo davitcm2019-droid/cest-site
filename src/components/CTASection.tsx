@@ -1,6 +1,6 @@
 import Link from "next/link";
+import { ArrowRight } from "lucide-react";
 import { siteConfig, whatsappLink } from "@/config/siteConfig";
-import { SectionTitle } from "@/components/SectionTitle";
 
 type CTASectionProps = {
   title?: string;
@@ -16,27 +16,33 @@ export function CTASection({
   primaryHref = "/contato",
 }: CTASectionProps) {
   return (
-    <section className="relative overflow-hidden bg-brand-dark py-20 sm:py-24">
-      <div className="bg-grid-technical pointer-events-none absolute inset-0" />
-      <div className="relative mx-auto max-w-4xl px-4 text-center sm:px-6 lg:px-8">
-        <SectionTitle title={title} description={description} align="center" light />
-        <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
-          <Link
-            href={primaryHref}
-            className="w-full rounded-full bg-brand-accent px-8 py-3.5 text-center text-sm font-bold text-brand-dark shadow-lg transition-transform duration-300 hover:scale-105 sm:w-auto"
-          >
-            {primaryLabel}
-          </Link>
-          <a
-            href={whatsappLink(
-              "Olá! Gostaria de falar com um especialista da CEST."
-            )}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="w-full rounded-full border border-white/30 px-8 py-3.5 text-center text-sm font-semibold text-white transition-colors duration-300 hover:bg-white/10 sm:w-auto"
-          >
-            {siteConfig.ctas.secondary}
-          </a>
+    <section className="px-5 py-20 sm:px-8 sm:py-28">
+      <div className="c2-card relative mx-auto max-w-6xl overflow-hidden px-6 py-16 text-center sm:px-12 sm:py-20">
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 bg-[radial-gradient(60%_90%_at_50%_100%,rgb(167_209_41/0.12),transparent_70%)]"
+        />
+        <div className="relative">
+          <span className="c2-pill">Fale com a CEST</span>
+          <h2 className="c2-h mx-auto mt-6 max-w-3xl text-[clamp(2rem,4.6vw,3.5rem)] text-white">{title}</h2>
+          <p className="mx-auto mt-5 max-w-2xl text-pretty text-base leading-relaxed text-white/70 sm:text-lg">
+            {description}
+          </p>
+          <div className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
+            <Link href={primaryHref} className="c2-btn c2-btn-primary group w-full sm:w-auto">
+              {primaryLabel}
+              <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5" aria-hidden="true" />
+            </Link>
+            <a
+              href={whatsappLink("Olá! Gostaria de falar com um especialista da CEST.")}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="c2-btn c2-btn-ghost w-full sm:w-auto"
+            >
+              {siteConfig.ctas.secondary}
+              <span className="sr-only"> (abre em nova aba)</span>
+            </a>
+          </div>
         </div>
       </div>
     </section>

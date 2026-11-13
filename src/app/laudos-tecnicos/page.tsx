@@ -94,7 +94,7 @@ export default function LaudosTecnicosPage() {
         description="Laudos elaborados com fundamentação técnica para subsidiar PGR, PCMSO, LTCAT, PPP e demais obrigações legais."
       />
 
-      <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6 sm:py-28 lg:px-8">
+      <section className="mx-auto max-w-6xl px-4 py-20 sm:px-6 sm:py-28 lg:px-8">
         <SectionTitle eyebrow="Tipos de avaliação" title="Laudos disponíveis" />
         <div className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {laudos.map((laudo, index) => (

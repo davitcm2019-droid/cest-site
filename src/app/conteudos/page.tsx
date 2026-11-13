@@ -20,8 +20,12 @@ export default function ConteudosPage() {
         description="Conteúdos educativos para ajudar sua empresa a entender obrigações, documentos e boas práticas de SST."
       />
 
-      <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6 sm:py-28 lg:px-8">
-        <SectionTitle eyebrow="Blog" title="Últimos conteúdos" />
+      <section className="mx-auto max-w-6xl px-4 py-20 sm:px-6 sm:py-28 lg:px-8">
+        <SectionTitle
+          eyebrow="Blog"
+          title="Últimos conteúdos"
+          description="Os artigos abaixo estão em produção. Enquanto isso, fale com a equipe técnica — respondemos as mesmas dúvidas diretamente."
+        />
         <div className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {blogPosts.map((post, index) => (
             <BlogCard key={post.title} {...post} delay={index * 0.06} />

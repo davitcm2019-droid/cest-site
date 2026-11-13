@@ -4,7 +4,13 @@ import { PageHero } from "@/components/PageHero";
 import { SectionTitle } from "@/components/SectionTitle";
 import { ContactForm } from "@/components/ContactForm";
 import { RevealOnScroll } from "@/components/RevealOnScroll";
-import { siteConfig, whatsappLink } from "@/config/siteConfig";
+import {
+  siteConfig,
+  whatsappLink,
+  telLink,
+  mailtoLink,
+  mapsLink,
+} from "@/config/siteConfig";
 
 export const metadata: Metadata = {
   title: "Contato",
@@ -12,11 +18,14 @@ export const metadata: Metadata = {
     "Fale com a CEST pelo formulário, WhatsApp, telefone ou e-mail e solicite um orçamento para Segurança do Trabalho.",
 };
 
+// Every channel is actionable: on mobile especially, a phone number or address
+// that can't be tapped is a dead end.
 const channels = [
   {
     icon: Phone,
     label: "Telefone",
     value: siteConfig.contact.phoneDisplay,
+    href: telLink,
   },
   {
     icon: MessageCircle,
@@ -28,12 +37,13 @@ const channels = [
     icon: Mail,
     label: "E-mail",
     value: siteConfig.contact.email,
-    href: `mailto:${siteConfig.contact.email}`,
+    href: mailtoLink,
   },
   {
     icon: MapPin,
     label: "Endereço",
     value: `${siteConfig.contact.address} — ${siteConfig.contact.city}`,
+    href: mapsLink,
   },
 ];
 
@@ -46,41 +56,40 @@ export default function ContatoPage() {
         description="Solicite um orçamento ou tire dúvidas sobre PGR, PCMSO, LTCAT, eSocial SST, laudos técnicos e treinamentos."
       />
 
-      <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6 sm:py-28 lg:px-8">
+      <section className="mx-auto max-w-6xl px-4 py-20 sm:px-6 sm:py-28 lg:px-8">
         <div className="grid grid-cols-1 gap-12 lg:grid-cols-5 lg:gap-16">
           <div className="lg:col-span-2">
             <SectionTitle eyebrow="Canais de atendimento" title="Como falar com a gente" />
             <div className="mt-8 space-y-4">
               {channels.map((channel, index) => {
                 const Icon = channel.icon;
-                const content = (
-                  <div className="flex items-center gap-4 rounded-xl border border-graphite/10 bg-mist/60 p-4 transition-colors duration-300 hover:bg-mist">
-                    <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-brand-dark/5 text-brand">
-                      <Icon className="h-5 w-5" strokeWidth={1.75} />
-                    </span>
-                    <div>
-                      <p className="text-xs font-semibold uppercase tracking-wider text-graphite/50">
-                        {channel.label}
-                      </p>
-                      <p className="text-sm font-medium text-graphite/85">
-                        {channel.value}
-                      </p>
-                    </div>
-                  </div>
-                );
+                const isExternal = channel.href.startsWith("http");
                 return (
                   <RevealOnScroll key={channel.label} delay={index * 0.06}>
-                    {channel.href ? (
-                      <a
-                        href={channel.href}
-                        target={channel.href.startsWith("http") ? "_blank" : undefined}
-                        rel={channel.href.startsWith("http") ? "noopener noreferrer" : undefined}
+                    <a
+                      href={channel.href}
+                      target={isExternal ? "_blank" : undefined}
+                      rel={isExternal ? "noopener noreferrer" : undefined}
+                      className="flex items-center gap-4 rounded-xl border border-graphite/10 bg-mist/60 p-4 transition-colors duration-300 hover:border-brand/30 hover:bg-mist"
+                    >
+                      <span
+                        aria-hidden="true"
+                        className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-white/5 text-brand"
                       >
-                        {content}
-                      </a>
-                    ) : (
-                      content
-                    )}
+                        <Icon className="h-5 w-5" strokeWidth={1.75} />
+                      </span>
+                      <div>
+                        <p className="text-xs font-semibold uppercase tracking-wider text-graphite/50">
+                          {channel.label}
+                          {isExternal ? (
+                            <span className="sr-only"> (abre em nova aba)</span>
+                          ) : null}
+                        </p>
+                        <p className="text-sm font-medium text-graphite/85">
+                          {channel.value}
+                        </p>
+                      </div>
+                    </a>
                   </RevealOnScroll>
                 );
               })}

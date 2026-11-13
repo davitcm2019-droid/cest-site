@@ -80,7 +80,7 @@ export default function ErgonomiaPage() {
         description="Avaliação das condições de trabalho sob a ótica da ergonomia, com foco em prevenção de lesões e organização saudável das atividades."
       />
 
-      <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6 sm:py-28 lg:px-8">
+      <section className="mx-auto max-w-6xl px-4 py-20 sm:px-6 sm:py-28 lg:px-8">
         <SectionTitle eyebrow="O que avaliamos" title="Frentes de atuação em ergonomia" />
         <div className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {topics.map((topic, index) => (

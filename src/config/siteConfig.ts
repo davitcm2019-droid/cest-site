@@ -2,7 +2,7 @@ export const siteConfig = {
   name: "CEST",
   fullName: "CEST — Consultoria e Assessoria em Segurança do Trabalho",
   slogan: "Mais do que documentos, gestão técnica em Segurança e Saúde do Trabalho.",
-  url: "https://www.cest-sst.com.br",
+  url: "https://cest-site.vercel.app",
   description:
     "Consultoria em Segurança do Trabalho para empresas. PGR, PCMSO, LTCAT, PPP, eSocial SST, laudos técnicos, treinamentos, ergonomia e gestão de EPIs.",
 
@@ -17,7 +17,7 @@ export const siteConfig = {
   },
 
   engineer: {
-    name: "Jose Eduardo Buscardi Costantini",
+    name: "José Eduardo Buscardi Costantini",
     role: "Engenheiro de Segurança do Trabalho",
     crea: "CREA 0601301810",
   },
@@ -64,3 +64,13 @@ export function whatsappLink(message?: string) {
   if (!message) return base;
   return `${base}?text=${encodeURIComponent(message)}`;
 }
+
+/** `tel:` in E.164 — the only form every dialer parses reliably. */
+export const telLink = `tel:+${siteConfig.contact.whatsapp}`;
+
+export const mailtoLink = `mailto:${siteConfig.contact.email}`;
+
+/** Opens the office address in the visitor's default maps app. */
+export const mapsLink = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+  `${siteConfig.contact.address}, ${siteConfig.contact.city}`
+)}`;

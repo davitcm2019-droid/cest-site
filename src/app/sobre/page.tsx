@@ -64,7 +64,7 @@ export default function SobrePage() {
       </section>
 
       <section className="bg-mist py-20 sm:py-28">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-6xl px-5 sm:px-8">
           <SectionTitle
             eyebrow="Princípios"
             title="Missão, visão e valores"
@@ -79,7 +79,7 @@ export default function SobrePage() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6 sm:py-28 lg:px-8">
+      <section className="mx-auto max-w-6xl px-4 py-20 sm:px-6 sm:py-28 lg:px-8">
         <SectionTitle
           eyebrow="Forma de atuação"
           title="Gestão técnica, não apenas emissão de documentos"

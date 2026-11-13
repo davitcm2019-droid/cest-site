@@ -1,4 +1,4 @@
-import { ArrowUpRight, Clock } from "lucide-react";
+import { Clock } from "lucide-react";
 import { RevealOnScroll } from "@/components/RevealOnScroll";
 
 type BlogCardProps = {
@@ -8,25 +8,40 @@ type BlogCardProps = {
   delay?: number;
 };
 
-export function BlogCard({ title, category, readingTime, delay = 0 }: BlogCardProps) {
+/*
+  These cards used to carry `cursor-pointer`, a hover lift and an
+  "open in new tab" arrow while being plain `<article>` elements with no link —
+  they looked clickable and did nothing. There are no article pages yet (the
+  data in `src/data/blog.ts` has no slug or body), so the honest presentation
+  is a card that announces itself as upcoming rather than one that baits a
+  click. Turn these into `<Link>`s once the articles exist.
+*/
+export function BlogCard({
+  title,
+  category,
+  readingTime,
+  delay = 0,
+}: BlogCardProps) {
   return (
     <RevealOnScroll delay={delay} className="h-full">
-      <article className="group flex h-full cursor-pointer flex-col justify-between rounded-2xl border border-graphite/10 bg-white p-6 transition-all duration-300 hover:-translate-y-1.5 hover:border-brand/30 hover:shadow-xl hover:shadow-brand-dark/10">
+      <article className="flex h-full flex-col justify-between rounded-2xl border border-graphite/10 bg-card p-6">
         <div>
-          <span className="inline-block rounded-full bg-brand-dark/5 px-3 py-1 text-xs font-semibold text-brand">
-            {category}
-          </span>
-          <h3 className="mt-4 text-lg font-bold leading-snug text-brand-dark">
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="inline-block rounded-full bg-white/5 px-3 py-1 text-xs font-semibold text-brand">
+              {category}
+            </span>
+            <span className="inline-block rounded-full border border-graphite/15 px-3 py-1 text-xs font-medium text-graphite/55">
+              Em breve
+            </span>
+          </div>
+          <h3 className="mt-4 text-lg font-bold leading-snug text-white">
             {title}
           </h3>
         </div>
-        <div className="mt-6 flex items-center justify-between text-xs font-medium text-graphite/60">
-          <span className="flex items-center gap-1.5">
-            <Clock className="h-3.5 w-3.5" />
-            {readingTime} de leitura
-          </span>
-          <ArrowUpRight className="h-4 w-4 text-brand transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1" />
-        </div>
+        <p className="mt-6 flex items-center gap-1.5 text-xs font-medium text-graphite/60">
+          <Clock className="h-3.5 w-3.5" aria-hidden="true" />
+          {readingTime} de leitura
+        </p>
       </article>
     </RevealOnScroll>
   );
