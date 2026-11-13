@@ -40,11 +40,27 @@ const efeitos = [
   { quando: "Se houver negligência", oque: "INSS cobra da empresa o que pagou", fonte: "Lei 8.213, art. 120" },
 ];
 
+/*
+  NR-28, Anexo I — Segurança do Trabalho, infração I4, in BTN, for the company
+  sizes CEST actually serves (1 to ~300 employees). Converted to reais by the
+  last UFIR (R$ 1,0641), which is how the table is applied in practice. The
+  annual readjustment of item 28.3.3 is NOT included, so these are floor
+  reference values — the page says so.
+*/
+const UFIR = 1.0641;
+const TETO_REINCIDENCIA = 6304 * UFIR;
+
 const multas = [
-  { faixa: "1 a 10 empregados", valor: "2.252 a 2.792", unidade: "BTN", w: 0.44 },
-  { faixa: "Mais de 1.000 empregados", valor: "6.034 a 6.304", unidade: "BTN", w: 1 },
-  { faixa: "Reincidência ou embaraço", valor: "6.304", unidade: "UFIR (teto)", w: 1 },
-];
+  { faixa: "1 a 10", btn: [2252, 2792] },
+  { faixa: "11 a 25", btn: [2793, 3334] },
+  { faixa: "26 a 50", btn: [3335, 3876] },
+  { faixa: "51 a 100", btn: [3877, 4418] },
+  { faixa: "101 a 250", btn: [4419, 4948] },
+  { faixa: "251 a 500", btn: [4949, 5490] },
+].map((m) => ({ faixa: m.faixa, min: m.btn[0] * UFIR, max: m.btn[1] * UFIR }));
+
+// Worked example: a 60-employee company with ten I4 items.
+const EXEMPLO_MULTA = { funcionarios: 60, itens: 10, faixa: multas[3] };
 
 function Exhibit({
   index,
@@ -166,22 +182,40 @@ export function ProofSection() {
             index={2}
             pill="Fiscalização"
             title="Dez itens descumpridos são dez multas."
-            text="Cada item de NR é uma infração separada. O valor depende do número de empregados e da gravidade, e vai direto ao teto na reincidência. Ao lado, infração de Segurança no nível mais grave (I4), por item."
-            stamp="NR-28, Anexo I e item 28.3.1.1 · CLT, art. 201"
+            text={
+              <>
+                Cada item de NR é uma infração separada, e o valor sobe com o
+                tamanho da empresa. Ao lado, a multa por item numa infração
+                grave de Segurança (I4). Na reincidência, cada item vai ao teto
+                de {formatBRL(TETO_REINCIDENCIA)}.
+              </>
+            }
+            stamp="NR-28, Anexo I e item 28.3.1.1 · BTN convertido pela UFIR de R$ 1,0641, sem o reajuste anual do item 28.3.3"
           >
-            <dl className="space-y-7">
+            <dl className="space-y-4">
               {multas.map((m, i) => (
                 <div key={m.faixa}>
                   <div className="flex items-baseline justify-between gap-4">
-                    <dt className="text-sm text-white/70">{m.faixa}</dt>
-                    <dd className="text-xl font-medium tabular-nums tracking-tight">
-                      {m.valor} <span className="text-sm text-white/45">{m.unidade}</span>
+                    <dt className="text-sm text-white/70">
+                      {m.faixa} <span className="text-white/40">funcionários</span>
+                    </dt>
+                    <dd className="text-base font-medium tabular-nums tracking-tight sm:text-lg">
+                      {formatBRL(m.min)} a {formatBRL(m.max)}
                     </dd>
                   </div>
-                  <Trilho index={i} largura={m.w} cor="#ff6b57" />
+                  <Trilho index={i} largura={m.max / multas[multas.length - 1].max} cor="#ff6b57" />
                 </div>
               ))}
             </dl>
+            <div className="mt-8 border-t border-white/[0.08] pt-6">
+              <p className="text-sm text-white/55">
+                Empresa de {EXEMPLO_MULTA.funcionarios} funcionários com {EXEMPLO_MULTA.itens} itens
+                graves descumpridos: a partir de
+              </p>
+              <p className="c2-h mt-1 text-[clamp(2.6rem,6vw,4.25rem)] text-[#ff6b57]">
+                <CountUp value={EXEMPLO_MULTA.faixa.min * EXEMPLO_MULTA.itens} duration={1900} />
+              </p>
+            </div>
           </Exhibit>
         </div>
       </div>
