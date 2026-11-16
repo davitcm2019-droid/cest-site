@@ -85,7 +85,7 @@ export function HeroHome() {
               A CEST é a Costantini Engenharia de Segurança do Trabalho, de{" "}
               {siteConfig.contact.city.replace(" - SP", "")}. PGR, PCMSO, LTCAT,
               laudos e eSocial SST feitos a partir dos riscos reais da sua
-              operação, com engenheiro responsável assinando.
+              operação, com engenheiro responsável.
             </p>
             <div className="mt-6 flex flex-wrap gap-3">
               <Link href="/contato" className="c2-btn c2-btn-primary group">
