@@ -7,6 +7,8 @@ type CTASectionProps = {
   description?: string;
   primaryLabel?: string;
   primaryHref?: string;
+  /** Overrides the WhatsApp button (e.g. the CST page uses its own number). */
+  whatsappHref?: string;
 };
 
 export function CTASection({
@@ -14,6 +16,7 @@ export function CTASection({
   description = "Fale com a equipe técnica da CEST e entenda como estruturar PGR, PCMSO, LTCAT, eSocial SST e treinamentos de forma integrada.",
   primaryLabel = siteConfig.ctas.primary,
   primaryHref = "/contato",
+  whatsappHref = whatsappLink("Olá! Gostaria de falar com um especialista da CEST."),
 }: CTASectionProps) {
   return (
     <section className="px-5 py-20 sm:px-8 sm:py-28">
@@ -34,7 +37,7 @@ export function CTASection({
               <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5" aria-hidden="true" />
             </Link>
             <a
-              href={whatsappLink("Olá! Gostaria de falar com um especialista da CEST.")}
+              href={whatsappHref}
               target="_blank"
               rel="noopener noreferrer"
               className="c2-btn c2-btn-ghost w-full sm:w-auto"

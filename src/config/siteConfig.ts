@@ -22,6 +22,12 @@ export const siteConfig = {
     crea: "CREA 0601301810",
   },
 
+  /** CST Medicina Ocupacional — agendamento de exames tem número próprio. */
+  cst: {
+    whatsapp: "5516997366778",
+    whatsappDisplay: "(16) 99736-6778",
+  },
+
   social: {
     instagram: "https://www.instagram.com/cestconsultoriasst/",
     linkedin: "https://www.linkedin.com/company/127854039",
@@ -35,6 +41,7 @@ export const siteConfig = {
       children: [
         { label: "Sobre", href: "/sobre" },
         { label: "Engenheiro Responsável", href: "/engenheiro-responsavel" },
+        { label: "CST Medicina", href: "/cst-medicina" },
         { label: "Setores Atendidos", href: "/setores-atendidos" },
       ],
     },
@@ -59,8 +66,8 @@ export const siteConfig = {
   },
 } as const;
 
-export function whatsappLink(message?: string) {
-  const base = `https://wa.me/${siteConfig.contact.whatsapp}`;
+export function whatsappLink(message?: string, number: string = siteConfig.contact.whatsapp) {
+  const base = `https://wa.me/${number}`;
   if (!message) return base;
   return `${base}?text=${encodeURIComponent(message)}`;
 }

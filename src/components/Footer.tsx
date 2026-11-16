@@ -60,6 +60,7 @@ const footerColumns = [
     links: [
       { label: "Sobre a CEST", href: "/sobre" },
       { label: "Engenheiro Responsável", href: "/engenheiro-responsavel" },
+      { label: "CST Medicina", href: "/cst-medicina" },
       { label: "Setores Atendidos", href: "/setores-atendidos" },
       { label: "Conteúdos", href: "/conteudos" },
       { label: "Contato", href: "/contato" },

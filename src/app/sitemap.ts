@@ -6,6 +6,7 @@ const routes = [
   "/sobre",
   "/servicos",
   "/medicina-ocupacional",
+  "/cst-medicina",
   "/esocial-sst",
   "/treinamentos",
   "/laudos-tecnicos",
