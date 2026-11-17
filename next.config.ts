@@ -10,8 +10,8 @@ const isDev = process.env.NODE_ENV === "development";
  * `<script>` tags. Replacing that with a nonce requires middleware, which would
  * force every page into dynamic rendering — a real cost for a static marketing
  * site, in exchange for little here (the site renders no user-supplied HTML).
- * The valuable restrictions are kept strict: no external script origins, no
- * framing, no plugins, no base-tag hijacking, and `connect-src 'self'` so an
+ * The valuable restrictions are kept strict: no external script origins, framing
+ * limited to the Google Maps embed, no plugins, no base-tag hijacking, and `connect-src 'self'` so an
  * injected payload has nowhere to exfiltrate to.
  */
 const csp = [
@@ -22,7 +22,8 @@ const csp = [
   "font-src 'self' data:",
   "img-src 'self' data: blob:",
   `connect-src 'self'${isDev ? " ws: wss:" : ""}`,
-  "frame-src 'none'",
+  // Only the Google Maps embed on /cst-medicina.
+  "frame-src https://www.google.com https://maps.google.com",
   "frame-ancestors 'none'",
   "object-src 'none'",
   "base-uri 'self'",

@@ -26,6 +26,10 @@ export const siteConfig = {
   cst: {
     whatsapp: "5516997366778",
     whatsappDisplay: "(16) 99736-6778",
+    address: "Rua Bernardino Sampaio, 375 - Centro",
+    city: "Taquaritinga - SP",
+    /** Rota a pé conferida no Google Maps em 16/11/2026. */
+    walk: { distance: "69 m", time: "1 min a pé", via: "via R. Campos Sales e R. Bernardino Sampaio" },
   },
 
   social: {

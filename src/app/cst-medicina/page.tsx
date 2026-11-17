@@ -17,6 +17,7 @@ import { DetailCard } from "@/components/DetailCard";
 import { FeatureCard } from "@/components/FeatureCard";
 import { RevealOnScroll } from "@/components/RevealOnScroll";
 import { CTASection } from "@/components/CTASection";
+import { CstLocationMap } from "@/components/CstLocationMap";
 import { siteConfig, whatsappLink } from "@/config/siteConfig";
 
 const cstWhatsapp = (msg: string) => whatsappLink(msg, siteConfig.cst.whatsapp);
@@ -263,7 +264,7 @@ export default function CstMedicinaPage() {
                 <div>
                   <p className="text-base font-bold text-white">Para agendar exames</p>
                   <p className="mt-1 text-sm leading-relaxed text-white/70">
-                    WhatsApp {siteConfig.cst.whatsappDisplay} · {siteConfig.contact.city}
+                    WhatsApp {siteConfig.cst.whatsappDisplay} · {siteConfig.cst.address}, {siteConfig.cst.city}
                   </p>
                 </div>
               </div>
@@ -282,6 +283,20 @@ export default function CstMedicinaPage() {
                 </a>
               </div>
             </div>
+          </RevealOnScroll>
+        </div>
+      </section>
+
+      {/* Localização */}
+      <section id="localizacao" className="border-t border-white/[0.07] py-20 sm:py-28">
+        <div className="mx-auto max-w-6xl px-5 sm:px-8">
+          <SectionTitle
+            eyebrow="Localização"
+            title="A um minuto a pé da CEST"
+            description={`A CST fica na ${siteConfig.cst.address}, em ${siteConfig.cst.city}, a ${siteConfig.cst.walk.distance} do escritório da CEST.`}
+          />
+          <RevealOnScroll delay={0.1} className="mt-10">
+            <CstLocationMap />
           </RevealOnScroll>
         </div>
       </section>
